@@ -8,11 +8,31 @@ class StatisticsUtilsTest {
 
     @Test
     fun getActiveAndCompletedStats_two_return50f50f() {
-        // GIVEN - One completed task and one active task
+        val tasks = listOf(
+            Task("t1", "desc", true, "Test1"),
+            Task("t2", "desc", false, "Test2")
+        )
+        val result = getActiveAndCompletedStats(tasks)
+        assertEquals(50f, result.activeTasksPercent)
+        assertEquals(50f, result.completedTasksPercent)
+    }
 
-        // WHEN - Compute the statistics
+    @Test
+    fun getActiveAndCompletedStats_zero_return0f0f() {
+        val tasks = emptyList<Task>()
+        val result = getActiveAndCompletedStats(tasks)
+        assertEquals(0f, result.activeTasksPercent)
+        assertEquals(0f, result.completedTasksPercent)
+    }
 
-        // THEN - Both percentages are 50%
-
+    @Test
+    fun getActiveAndCompletedStats_two_return0f100f() {
+        val tasks = listOf(
+            Task("t1", "desc", true, "Test1"),
+            Task("t2", "desc", true, "Test2")
+        )
+        val result = getActiveAndCompletedStats(tasks)
+        assertEquals(0f, result.activeTasksPercent)
+        assertEquals(100f, result.completedTasksPercent)
     }
 }
